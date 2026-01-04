@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WeWish - Магазин автозапчастей</title>
+<style>
+body {font-family: Arial; background:#f5f5f5; padding:20px;}
+.container {background:#fff; max-width:500px; margin:auto; padding:20px; border-radius:10px; box-shadow:0px 0px 10px #ccc;}
+h1{text-align:center; color:#333;}
+form{display:flex; flex-direction:column;}
+label{margin-top:10px;}
+input{padding:8px; margin-top:5px; border-radius:5px; border:1px solid #ccc;}
+button{margin-top:15px; padding:10px; border:none; background:#4CAF50; color:white; border-radius:5px; cursor:pointer;}
+button:hover{background:#45a049;}
+#message{margin-top:15px; text-align:center; color:#333;}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>WeWish - Магазин автозапчастей</h1>
+<p>Заполните форму, чтобы сделать заказ:</p>
+<form id="orderForm">
+<label for="name">Имя:</label>
+<input type="text" id="name" name="name" required>
+<label for="phone">Телефон:</label>
+<input type="text" id="phone" name="phone" required>
+<label for="car">Модель машины:</label>
+<input type="text" id="car" name="car" required>
+<label for="part">Нужная запчасть:</label>
+<input type="text" id="part" name="part" required>
+<button type="submit">Отправить заказ</button>
+</form>
+<p id="message"></p>
+</div>
+<script>
+document.getElementById("orderForm").addEventListener("submit", function(e){
+e.preventDefault();
+const name=document.getElementById("name").value;
+const phone=document.getElementById("phone").value;
+const car=document.getElementById("car").value;
+const part=document.getElementById("part").value;
+document.getElementById("message").innerText=Спасибо, ${name}! Ваш заказ на ${part} для ${car} принят. Мы свяжемся с вами по номеру ${phone}.;
+document.getElementById("orderForm").reset();
+});
+</script>
+</body>
+</html>
