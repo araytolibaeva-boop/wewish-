@@ -21,8 +21,7 @@ button:hover{background:#45a049;}
 <h1>WeWish - Магазин автозапчастей</h1>
 <p>Заполните форму, чтобы сделать заказ:</p>
 
-<!-- Здесь форма с Formspree -->
-<form action="https://formspree.io/f/mrebnejo" method="POST">
+<form action="YOUR_FORMSPREE_ENDPOINT" method="POST" id="orderForm">
 <label for="name">Имя:</label>
 <input type="text" id="name" name="name" required>
 
@@ -40,5 +39,39 @@ button:hover{background:#45a049;}
 
 <p id="message"></p>
 </div>
+
+<script>
+const form = document.getElementById("orderForm");
+form.addEventListener("submit", async function(e){
+    e.preventDefault();
+    const formData = new FormData(form);
+
+    // Отправка на Formspree
+    const response = await fetch(form.action, {
+        method: "POST",
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+    });
+
+    if(response.ok){
+        document.getElementById("message").innerText = Спасибо, ${formData.get("name")}! Ваш заказ принят.;
+        form.reset();
+
+        // Отправка уведомления в Telegram
+        fetch("https://api.telegram.org/botYOUR_BOT_TOKEN/sendMessage", {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                chat_id: "YOUR_CHAT_ID",
+                text: Новый заказ!\nИмя: ${formData.get("name")}\nТелефон: ${formData.get("phone")}\nМашина: ${formData.get("car")}\nЗапчасть: ${formData.get("part")}
+            })
+        });
+
+    } else {
+        document.getElementById("message").innerText = "Ошибка! Попробуйте ещё раз.";
+    }
+});
+</script>
+
 </body>
 </html>
